@@ -1,6 +1,6 @@
 package com.github.timtebeek.taxonomy.config;
 
-import com.github.timtebeek.taxonomy.model.TaxonNode;
+import com.github.timtebeek.taxonomy.model.Taxon;
 import org.neo4j.ogm.config.DriverConfiguration;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ public class Neo4jConfiguration {
 	@Bean
 	public SessionFactory sessionFactory() {
 		// with domain entity base package(s)
-		return new SessionFactory(getConfiguration(), TaxonNode.class);
+		return new SessionFactory(getConfiguration(), Taxon.class);
 	}
 
 	@Bean

@@ -12,7 +12,7 @@ import org.neo4j.ogm.annotation.Relationship;
 @Data
 @EqualsAndHashCode(of = { "taxid" })
 @ToString(exclude = { "children" })
-public class TaxonNode {
+public class Taxon {
 	@GraphId
 	@Setter(value = AccessLevel.PACKAGE)
 	Long			id;
@@ -22,8 +22,8 @@ public class TaxonNode {
 	String			rank;
 
 	@Relationship(type = "CHILD_OF")
-	TaxonNode		parent;
+	Taxon		parent;
 
 	@Relationship(type = "PARENT_OF")
-	Set<TaxonNode>	children = new HashSet<>();
+	Set<Taxon>	children = new HashSet<>();
 }
