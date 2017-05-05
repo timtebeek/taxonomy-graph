@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.timtebeek.taxonomy</groupId>
+	<artifactId>taxonomy-graph</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<parent>
+		<groupId>io.spring.platform</groupId>
+		<artifactId>platform-bom</artifactId>
+		<version>Brussels-SR2</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencies>
+		<!-- Store data in and read from Neo4J -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-neo4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-ogm-test</artifactId>
+			<version>${neo4j-ogm.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-nop</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Expose data to the web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- Read directly from taxdump.tar.gz -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-vfs2</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<!-- Generate getters and setters -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Spring test support -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
