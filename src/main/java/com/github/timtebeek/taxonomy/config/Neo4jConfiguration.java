@@ -1,7 +1,7 @@
 package com.github.timtebeek.taxonomy.config;
 
 import com.github.timtebeek.taxonomy.model.TaxonNode;
-import org.neo4j.ogm.drivers.embedded.driver.EmbeddedDriver;
+import org.neo4j.ogm.config.DriverConfiguration;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,8 @@ public class Neo4jConfiguration {
 	@Bean
 	public org.neo4j.ogm.config.Configuration getConfiguration() {
 		org.neo4j.ogm.config.Configuration config = new org.neo4j.ogm.config.Configuration();
-		config.driverConfiguration().setDriverClassName(EmbeddedDriver.class.getName());
+		DriverConfiguration driverConfiguration = config.driverConfiguration();
+		driverConfiguration.setURI("bolt://localhost");
 		return config;
 	}
 
