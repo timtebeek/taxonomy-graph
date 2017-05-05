@@ -1,25 +1,29 @@
 package com.github.timtebeek.taxonomy.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import lombok.Data;
+import lombok.*;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 @NodeEntity
 @Data
+@EqualsAndHashCode(of = { "taxid" })
+@ToString(exclude = { "children" })
 public class TaxonNode {
 	@GraphId
+	@Setter(value = AccessLevel.PACKAGE)
 	Long			id;
 
-	Integer			taxid;
+	int				taxid;
 
 	String			rank;
 
-	@Relationship(type = "parent")
+	@Relationship(type = "CHILD_OF")
 	TaxonNode		parent;
 
-	@Relationship(direction = Relationship.INCOMING, type = "child")
-	Set<TaxonNode>	children;
+	@Relationship(type = "PARENT_OF")
+	Set<TaxonNode>	children = new HashSet<>();
 }

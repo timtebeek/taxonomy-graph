@@ -9,8 +9,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
+@EnableNeo4jRepositories
+@EnableTransactionManagement
 public class TaxonomyGraphApplication implements ApplicationRunner {
 	public static void main(final String[] args) {
 		SpringApplication.run(TaxonomyGraphApplication.class, args);
