@@ -68,6 +68,8 @@ public class NodeParser {
 					log.info("Processing line #{}", currentLine);
 
 				String[] row = line.split(SEPARATOR, -1);
+				if (row[0].equals(row[1]))
+					continue; // Skip root
 				Integer childid = Integer.valueOf(row[0]);
 				Integer parentid = Integer.valueOf(row[1]);
 				Taxon child = taxa.get(childid);
