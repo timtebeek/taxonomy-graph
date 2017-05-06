@@ -27,7 +27,7 @@ public class TaxonomyGraphApplication implements ApplicationRunner {
 	public void run(final ApplicationArguments args) throws Exception {
 		if (args.containsOption("parse")) {
 			Path tardump = Downloader.getTardump();
-			parser.parse(tardump);
+			parser.parse(tardump, args.containsOption("delete"));
 		}
 	}
 }
