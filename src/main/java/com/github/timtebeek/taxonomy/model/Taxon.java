@@ -5,6 +5,7 @@ import java.util.Set;
 
 import lombok.*;
 import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
@@ -17,6 +18,7 @@ public class Taxon {
 	@Setter(value = AccessLevel.PACKAGE)
 	Long			id;
 
+	@Index(unique=true, primary=true)
 	int				taxid;
 
 	String			rank;
