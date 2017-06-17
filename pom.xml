@@ -9,10 +9,11 @@
 		<groupId>io.spring.platform</groupId>
 		<artifactId>platform-bom</artifactId>
 		<version>Brussels-SR3</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
 	<properties>
 		<java.version>1.8</java.version>
+		<neo4j-ogm-bolt-driver.version>2.1.2</neo4j-ogm-bolt-driver.version>
 	</properties>
 	<dependencies>
 		<!-- Store data in and read from Neo4J -->
@@ -20,41 +21,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-neo4j</artifactId>
 		</dependency>
+		<!-- Connect via Bolt -->
 		<dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-ogm-bolt-driver</artifactId>
-			<version>2.1.2</version>
+			<version>${neo4j-ogm-bolt-driver.version}</version>
 		</dependency>
-		<!-- Neo4J tests need drivers and embedded instance -->
-<!--
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-ogm-test</artifactId>
-			<version>${neo4j-ogm.version}</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-nop</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
--->
 		<!-- Expose data to the web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<!-- Read directly from taxdump.tar.gz -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-compress</artifactId>
-			<version>1.13</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-vfs2</artifactId>
-			<version>2.1</version>
 		</dependency>
 		<!-- Generate getters and setters -->
 		<dependency>

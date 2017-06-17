@@ -1,15 +1,28 @@
 set -e;
 
-# Remove existing database
-rm -rf data/databases/graph.db;
+## Store all data in home
+DATADIR="$HOME/neo4j/data/"
+mkdir -p $DATADIR;
+cd $DATADIR;
 
+
+## Download & extract
+#curl -o taxdump.tar.gz ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz;
+tar -xf taxdump.tar.gz;
+
+
+## Transform input files
 # Prefix names with a unique numerical ID (not available inside docker image)
-# nl -s '	|	' names.dmp > names_prefixed.dmp;
+nl -s '	|	' names.dmp > names_prefixed.dmp;
 
-# Fix problematic line in citations.dmp
+# Fix problematic lines in citations.dmp
 #36396	|	The Plant List - Polygala	|	0	|	0	|	Gymnadenia rhellicani	Nigritella rhellicani	|		|	4275 1384028 1384029 	|
-# sed -i -e 's/[^|]	[^|]/ /g' citations.dmp
+#sed -i -e 's/[^|]	[^|]/ /g' citations.dmp
+#7698	|	James G & Gilbert GL (unpublished_1998)	|	0	|	0	|		|	James, G., and Gilbert, G.L. \"Mycobacterium sp. nov. 16S ribosomal RNA.\" Unpublished (as of 28 December 1998)	|86002 	|
+#sed -i 's/|86002  |/|	86002	|/g' citations.dmp
 
+
+# Write out header files
 # division.dmp: Division entities
 echo 'division_id:ID(Division)	|	code	|	name	|	comments	|' > division.psv;
 # gencode.dmp: Gencode entities
@@ -37,27 +50,29 @@ echo 'name_id:END_ID(Name)	|	tax_id:START_ID(Taxon)	|	name:IGNORE	|	unique_name:
 echo 'cit_id:END_ID(Citation)	|	cit_key:IGNORE	|	pubmed_id:IGNORE	|	medline_id:IGNORE	|	url:IGNORE	|	text:IGNORE	|	tax_id_list:START_ID[](Taxon)	|' > citations.taxon.psv;
 
 
-# Import taxonomy data
-./bin/neo4j-import \
-	--into data/databases/graph.db \
-	--delimiter '|' \
-	--array-delimiter ' ' \
-	--quote '	' \
-	--trim-strings \
-	--id-type integer \
-	--nodes:Division division.psv,data/taxdump/division.dmp \
-	--nodes:Gencode gencode.psv,data/taxdump/gencode.dmp \
-	--nodes:Taxon nodes.psv,data/taxdump/nodes.dmp \
-	--nodes:Name names.psv,data/taxdump/names_prefixed.dmp \
-	--relationships:HAS_PARENT nodes.parent.psv,data/taxdump/nodes.dmp \
-	--relationships:HAS_DIVISION nodes.division.psv,data/taxdump/nodes.dmp \
-	--relationships:HAS_GENCODE nodes.gencode.psv,data/taxdump/nodes.dmp \
-	--relationships:HAS_MITGENCODE nodes.mitgencode.psv,data/taxdump/nodes.dmp \
-	--relationships:HAS_NAME names.taxon.psv,data/taxdump/names_prefixed.dmp 
-# citations.dmp is still problematic
-#	--nodes:Citation citations.psv,data/taxdump/citations.dmp
-#	--relationships:HAS_CITATION citations.taxon.psv,data/taxdump/citations.dmp
+## Write import script to datadir
+IMPORT="set -e;
+rm -rf data/databases/graph.db;
+./bin/neo4j-import \\
+	--into data/databases/graph.db \\
+	--delimiter '|' \\
+	--array-delimiter ' ' \\
+	--quote '	' \\
+	--trim-strings \\
+	--id-type integer \\
+	--nodes:Division data/division.psv,data/division.dmp \\
+	--nodes:Gencode data/gencode.psv,data/gencode.dmp \\
+	--nodes:Taxon data/nodes.psv,data/nodes.dmp \\
+	--nodes:Name data/names.psv,data/names_prefixed.dmp \\
+	--relationships:HAS_PARENT data/nodes.parent.psv,data/nodes.dmp \\
+	--relationships:HAS_DIVISION data/nodes.division.psv,data/nodes.dmp \\
+	--relationships:HAS_GENCODE data/nodes.gencode.psv,data/nodes.dmp \\
+	--relationships:HAS_MITGENCODE data/nodes.mitgencode.psv,data/nodes.dmp \\
+	--relationships:HAS_NAME data/names.taxon.psv,data/names_prefixed.dmp \\
+#	--nodes:Citation data/citations.psv,data/citations.dmp \\
+#	--relationships:HAS_CITATION data/citations.taxon.psv,data/citations.dmp
+" > "$DATADIR/import.sh";
+echo "$IMPORT" > "$DATADIR/import.sh";
+chmod +x "$DATADIR/import.sh";
 
-# Clean up
-rm *.psv;
-
+echo 'Done';

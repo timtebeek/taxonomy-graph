@@ -1,15 +1,19 @@
 package com.github.timtebeek.taxonomy.config;
 
-import com.github.timtebeek.taxonomy.model.Taxon;
 import org.neo4j.ogm.config.DriverConfiguration;
 import org.neo4j.ogm.session.SessionFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
 
+import com.github.timtebeek.taxonomy.model.Taxon;
+
 @Configuration
+@SuppressWarnings("static-method")
 public class Neo4jConfiguration {
 	@Bean
+	@ConditionalOnMissingBean
 	public org.neo4j.ogm.config.Configuration getConfiguration() {
 		org.neo4j.ogm.config.Configuration config = new org.neo4j.ogm.config.Configuration();
 		DriverConfiguration driverConfiguration = config.driverConfiguration();
@@ -20,7 +24,7 @@ public class Neo4jConfiguration {
 	@Bean
 	public SessionFactory sessionFactory() {
 		// with domain entity base package(s)
-		return new SessionFactory(getConfiguration(), Taxon.class);
+		return new SessionFactory(getConfiguration(), Taxon.class.getPackage().getName());
 	}
 
 	@Bean

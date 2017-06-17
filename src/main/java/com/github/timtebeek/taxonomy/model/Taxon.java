@@ -1,31 +1,41 @@
 package com.github.timtebeek.taxonomy.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import lombok.*;
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.*;
+
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 @NodeEntity
 @Data
-@EqualsAndHashCode(of = { "taxid" })
-@ToString(exclude = { "children" })
+@EqualsAndHashCode(of = { "taxonid" })
 public class Taxon {
 	@GraphId
 	@Setter(value = AccessLevel.PACKAGE)
-	Long			id;
+	Long		id;
+	@Property(name = "tax_id")
+	@Index(unique = true, primary = true)
+	long		taxonid;
 
-	@Index(unique=true, primary=true)
-	int				taxid;
+	String		rank;
+	String		emblcode;
+	String		comments;
 
-	String			rank;
-
-	@Relationship(type = "CHILD_OF")
+	@Relationship(type = "HAS_PARENT")
 	Taxon		parent;
 
-	@Relationship(type = "PARENT_OF")
-	Set<Taxon>	children = new HashSet<>();
+	@Relationship(type = "HAS_DIVISION")
+	Division	division;
+
+	@Relationship(type = "HAS_GENCODE")
+	Gencode	gencode;
+	@Relationship(type = "HAS_MITGENCODE")
+	Gencode	mitgencode;
+
+	@Relationship(type = "HAS_NAME")
+	List<Name>	names	= new ArrayList<>();
 }
