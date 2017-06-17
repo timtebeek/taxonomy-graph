@@ -8,18 +8,28 @@ import static org.hamcrest.Matchers.hasSize;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 import com.github.timtebeek.taxonomy.model.Taxon;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class TaxonRepoTest {
+	@BeforeClass
+	public static void onlyRunWithServer() {
+		ResponseEntity<String> entiy = new RestTemplate().getForEntity("http://localhost:7474/browser/", String.class);
+		Assume.assumeTrue(entiy.toString(), entiy.getStatusCode().is2xxSuccessful());
+	}
+
 	@Autowired
 	private TaxonRepo repo;
 

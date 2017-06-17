@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.repository.GraphRepository;
 import com.github.timtebeek.taxonomy.model.Taxon;
 
 public interface TaxonRepo extends GraphRepository<Taxon> {
-	Taxon findByTaxonid(int taxonid);
+	Taxon findByTaxonid(long taxonid);
 
 	List<Taxon> findByRank(final String rank);
 }
