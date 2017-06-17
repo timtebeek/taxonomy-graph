@@ -32,7 +32,7 @@ echo 'tax_id:ID(Taxon)	|	parent_tax_id	|	rank	|	embl_code	|	division_id:IGNORE	|
 # names.dmp: Name entities
 echo 'name_id:ID(Name)	|	tax_id:IGNORE	|	name	|	unique_name	|	name_class	|' > names.psv;
 # citations.dmp: Name entities
-echo 'cit_id:ID(Name)	|	cit_key	|	pubmed_id:int	|	medline_id:int	|	url:IGNORE	|	text	|	tax_id_list:IGNORE	|' > citations.psv;
+echo 'cit_id:ID(Citation)	|	cit_key	|	pubmed_id:int	|	medline_id:int	|	url:IGNORE	|	text	|	tax_id_list:IGNORE	|' > citations.psv;
 
 # nodes.dmp: Relationship HAS_PARENT
 echo 'tax_id:START_ID(Taxon)	|	parent_tax_id:END_ID(Taxon)	|	rank:IGNORE	|	embl_code:IGNORE	|	division_id:IGNORE	|	inherited_div_flag:IGNORE	|	genetic_code_id:IGNORE	|	inherited_gc_flag:IGNORE	|	mitochondrial_genetic_code_id:IGNORE	|	inherited_mgc_flag:IGNORE	|	genBank_hidden_flag:IGNORE	|	hidden_subtree_root_flag:IGNORE	|	comments:IGNORE	|' > nodes.parent.psv;
