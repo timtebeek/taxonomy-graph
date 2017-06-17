@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import com.github.timtebeek.taxonomy.model.Taxon;
@@ -26,8 +27,14 @@ import com.github.timtebeek.taxonomy.model.Taxon;
 public class TaxonRepoTest {
 	@BeforeClass
 	public static void onlyRunWithServer() {
-		ResponseEntity<String> entiy = new RestTemplate().getForEntity("http://localhost:7474/browser/", String.class);
-		Assume.assumeTrue(entiy.toString(), entiy.getStatusCode().is2xxSuccessful());
+		try {
+			String url = "http://localhost:7474/browser/";
+			ResponseEntity<String> entity = new RestTemplate().getForEntity(url, String.class);
+			Assume.assumeTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
+		}
+		catch (ResourceAccessException exc) {
+			Assume.assumeNoException(exc);
+		}
 	}
 
 	@Autowired
