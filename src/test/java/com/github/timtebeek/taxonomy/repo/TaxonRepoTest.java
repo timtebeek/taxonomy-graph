@@ -8,7 +8,6 @@ import static org.hamcrest.Matchers.hasSize;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +44,6 @@ public class TaxonRepoTest {
 		// Assert names
 		Assert.assertThat(root.getNames(),
 				hasItems(hasProperty("name", equalTo("root")), hasProperty("name", equalTo("all"))));
-	}
-
-	@Test
-	@Ignore("SSL error, possible due to timeout because of missing index on rank")
-	// OR: https://github.com/neo4j/neo4j-ogm/issues/319
-	public void testFindByRankRoot() {
-		List<Taxon> taxa = repo.findByRank("no rank");
-		Assert.assertThat(taxa, hasSize(1));
-		Assert.assertEquals(1, taxa.get(0).getTaxonid());
 	}
 
 	@Test
