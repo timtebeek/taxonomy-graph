@@ -7,38 +7,27 @@ import static org.hamcrest.Matchers.hasSize;
 
 import java.util.List;
 
+import com.github.timtebeek.taxonomy.model.Taxon;
 import org.junit.Assert;
 import org.junit.Assume;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.client.RestTemplate;
-
-import com.github.timtebeek.taxonomy.model.Taxon;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class TaxonRepoTest {
-	@BeforeClass
-	public static void onlyRunWithServer() {
-		try {
-			String url = "http://localhost:7474/browser/";
-			ResponseEntity<String> entity = new RestTemplate().getForEntity(url, String.class);
-			Assume.assumeTrue(entity.toString(), entity.getStatusCode().is2xxSuccessful());
-		}
-		catch (ResourceAccessException exc) {
-			Assume.assumeNoException(exc);
-		}
-	}
-
 	@Autowired
 	private TaxonRepo repo;
+
+	@Before
+	public void setup() {
+		Assume.assumeNotNull(repo.findByTaxonid(1));
+	}
 
 	@Test
 	public void testFindByTaxonidRoot() {
@@ -61,6 +50,9 @@ public class TaxonRepoTest {
 		// Assert names
 		Assert.assertThat(root.getNames(),
 				hasItems(hasProperty("name", equalTo("root")), hasProperty("name", equalTo("all"))));
+		// Assert children
+		Assert.assertThat(root.getChildren(), hasSize(6));
+		root.getChildren().forEach(System.out::println);
 	}
 
 	@Test

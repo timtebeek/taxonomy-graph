@@ -3,16 +3,13 @@ package com.github.timtebeek.taxonomy.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.*;
 import org.neo4j.ogm.annotation.*;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Setter;
 
 @NodeEntity
 @Data
 @EqualsAndHashCode(of = { "taxonid" })
+@ToString(exclude = { "parent", "children" })
 public class Taxon {
 	@GraphId
 	@Setter(value = AccessLevel.PACKAGE)
@@ -27,15 +24,17 @@ public class Taxon {
 
 	@Relationship(type = "HAS_PARENT")
 	Taxon		parent;
+	@Relationship(type = "HAS_PARENT", direction = Relationship.INCOMING)
+	List<Taxon>	children	= new ArrayList<>();
 
 	@Relationship(type = "HAS_DIVISION")
 	Division	division;
 
 	@Relationship(type = "HAS_GENCODE")
-	Gencode	gencode;
+	Gencode		gencode;
 	@Relationship(type = "HAS_MITGENCODE")
-	Gencode	mitgencode;
+	Gencode		mitgencode;
 
 	@Relationship(type = "HAS_NAME")
-	List<Name>	names	= new ArrayList<>();
+	List<Name>	names		= new ArrayList<>();
 }

@@ -13,7 +13,7 @@ Load the NCBI Taxonomy into Neo4J and expose with Spring Data.
 `docker run --publish=7474:7474 --publish=7687:7687 --volume=$HOME/neo4j/data:/data --volume=$HOME/neo4j/logs:/logs --env NEO4J_AUTH=none neo4j:3.2`
 
 ### Import data
-`docker exec --interactive --tty <container> sh data/import.sh`
+`docker exec <container> sh data/import.sh`
 
 ### Run API
 `mvn spring-boot:run`
