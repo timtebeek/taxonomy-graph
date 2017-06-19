@@ -1,9 +1,6 @@
 package com.github.timtebeek.taxonomy.repo;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 
 import java.util.List;
 
@@ -20,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
+@SuppressWarnings("unchecked")
 public class TaxonRepoTest {
 	@Autowired
 	private TaxonRepo repo;
@@ -52,7 +50,7 @@ public class TaxonRepoTest {
 				hasItems(hasProperty("name", equalTo("root")), hasProperty("name", equalTo("all"))));
 		// Assert children
 		Assert.assertThat(root.getChildren(), hasSize(6));
-		root.getChildren().forEach(System.out::println);
+		Assert.assertThat(root.getChildren(), everyItem(hasProperty("parent", equalTo(root))));
 	}
 
 	@Test
