@@ -1,4 +1,4 @@
 spring:
   data:
     neo4j:
-      uri: file:///home/tim/neo4j/data/databases/graph.db
+      uri: file://${user.home}/neo4j/data/databases/graph.db
