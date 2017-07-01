@@ -32,6 +32,7 @@ public class Taxon extends AbstractEntity {
 	Taxon		parent;
 	@Relationship(type = "HAS_PARENT", direction = Relationship.INCOMING)
 	@JsonIgnore
+	// FIXME returns too few taxa, and also includes outgoing relationship
 	Set<Taxon>	children	= new HashSet<>();
 
 	@Relationship(type = "HAS_DIVISION")
