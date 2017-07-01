@@ -1,27 +1,26 @@
 package com.github.timtebeek.taxonomy.model;
 
-import org.neo4j.ogm.annotation.GraphId;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Setter;
-
 @NodeEntity
 @Data
-@EqualsAndHashCode(of = { "nameid" })
-public class Name {
-	@GraphId
-	@Setter(value = AccessLevel.PACKAGE)
-	Long	id;
-	@Property(name = "name_id")
+@EqualsAndHashCode(callSuper = false, of = { "nameid" })
+public class Name extends AbstractEntity {
 	@Index(unique = true, primary = true)
-	long	nameid;
+	Long	nameid;
 
 	String	name;
+	@Property(name = "unique_name")
 	String	uniqueName;
+	@Property(name = "name_class")
 	String	nameClass;
+
+	@Override
+	public Long getId() {
+		return nameid;
+	}
 }

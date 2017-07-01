@@ -1,25 +1,21 @@
 package com.github.timtebeek.taxonomy.model;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Property;
-
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Setter;
+import org.neo4j.ogm.annotation.Index;
+import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
 @Data
-@EqualsAndHashCode(of = { "gencodeid" })
-public class Gencode {
-	@GraphId
-	@Setter(value = AccessLevel.PACKAGE)
-	Long	id;
-	@Property(name = "gencode_id")
+@EqualsAndHashCode(callSuper = false, of = { "gencodeid" })
+public class Gencode extends AbstractEntity {
 	@Index(unique = true, primary = true)
-	long	gencodeid;
+	Long	gencodeid;
 
 	String	abbreviation, name, cde, starts;
+
+	@Override
+	public Long getId() {
+		return gencodeid;
+	}
 }

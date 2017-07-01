@@ -1,25 +1,21 @@
 package com.github.timtebeek.taxonomy.model;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Property;
-
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Setter;
+import org.neo4j.ogm.annotation.Index;
+import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
 @Data
-@EqualsAndHashCode(of = { "divisionid" })
-public class Division {
-	@GraphId
-	@Setter(value = AccessLevel.PACKAGE)
-	Long	id;
-	@Property(name = "division_id")
+@EqualsAndHashCode(callSuper = false, of = { "divisionid" })
+public class Division extends AbstractEntity {
 	@Index(unique = true, primary = true)
-	long	divisionid;
+	Long	divisionid;
 
 	String	code, name, comments;
+
+	@Override
+	public Long getId() {
+		return divisionid;
+	}
 }
