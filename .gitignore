@@ -22,4 +22,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+# Taxonomy
 /taxdump.tar.gz
+*.log
