@@ -22,5 +22,5 @@ public abstract class AbstractEntity {
 	@Override
 	public abstract String toString();
 
-	public abstract Long getId();
+	public abstract Integer getId();
 }

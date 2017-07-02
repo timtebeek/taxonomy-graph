@@ -1,17 +1,18 @@
 package com.github.timtebeek.taxonomy.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @NodeEntity
 @Data
 @EqualsAndHashCode(callSuper = false, of = { "nameid" })
 public class Name extends AbstractEntity {
 	@Index(unique = true, primary = true)
-	Long	nameid;
+	Integer	nameid;
 
 	String	name;
 	@Property(name = "unique_name")
@@ -20,7 +21,7 @@ public class Name extends AbstractEntity {
 	String	nameClass;
 
 	@Override
-	public Long getId() {
+	public Integer getId() {
 		return nameid;
 	}
 }

@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString(exclude = { "parent", "children" })
 public class Taxon extends AbstractEntity {
 	@Index(unique = true, primary = true)
-	Long		taxonid;
+	Integer		taxonid;
 
 	String		rank;
 	String		emblcode;
@@ -32,7 +32,6 @@ public class Taxon extends AbstractEntity {
 	Taxon		parent;
 	@Relationship(type = "HAS_PARENT", direction = Relationship.INCOMING)
 	@JsonIgnore
-	// FIXME returns too few taxa, and also includes outgoing relationship
 	Set<Taxon>	children	= new HashSet<>();
 
 	@Relationship(type = "HAS_DIVISION")
@@ -51,7 +50,18 @@ public class Taxon extends AbstractEntity {
 	}
 
 	@Override
-	public Long getId() {
+	public Integer getId() {
 		return taxonid;
+	}
+
+	// Lombok generated methods also need annotations
+	@Relationship(type = "HAS_PARENT", direction = Relationship.OUTGOING)
+	public void setParent(final Taxon parent) {
+		this.parent = parent;
+	}
+
+	@Relationship(type = "HAS_PARENT", direction = Relationship.INCOMING)
+	public void setChildren(final Set<Taxon> children) {
+		this.children = children;
 	}
 }

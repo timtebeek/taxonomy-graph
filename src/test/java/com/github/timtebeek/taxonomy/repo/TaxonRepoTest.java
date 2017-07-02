@@ -25,7 +25,7 @@ public class TaxonRepoTest {
 	@Test
 	public void testFindByTaxonidRoot() {
 		// Retrieve & assert direct properties
-		Taxon root = repo.findByTaxonid(1L);
+		Taxon root = repo.findByTaxonid(1);
 		Assert.assertNotNull(root);
 		Assert.assertEquals(1, root.getTaxonid().longValue());
 		Assert.assertEquals("no rank", root.getRank());
@@ -33,24 +33,22 @@ public class TaxonRepoTest {
 		Assert.assertNotNull("Parent should not be null", root.getParent());
 		Assert.assertEquals(root, root.getParent());
 		// Assert children
-		Assert.assertThat(root.getChildren(), hasSize(1));
-		Taxon child = root.getChildren().iterator().next();
-		Assert.assertEquals(root, child.getParent());
-		Assert.assertEquals(1269, child.getTaxonid().longValue()); // FIXME fails to pickup taxonid:1269 as child
+		Assert.assertThat(root.getChildren(), hasSize(2));
+		Assert.assertThat(root.getChildren(), everyItem(hasProperty("parent", equalTo(root))));
 	}
 
 	@Test
 	public void testTaxonGetChildren() {
-		Taxon taxon = repo.findByTaxonid(1269L);
+		Taxon taxon = repo.findByTaxonid(1269);
 		Set<Taxon> children = taxon.getChildren();
-		Assert.assertThat(children, hasSize(1280)); // FIXME 1278
-		Assert.assertThat(children, not(hasItem(taxon))); // FIXME includes itself
+		Assert.assertThat(children, hasSize(1280));
+		Assert.assertThat(children, not(hasItem(taxon)));
 	}
 
 	@Test
 	public void testRepoGetChildren() {
-		Taxon taxon = repo.findByTaxonid(1269L);
-		List<Taxon> children = repo.getChildren(1269L);
+		Taxon taxon = repo.findByTaxonid(1269);
+		List<Taxon> children = repo.getChildren(1269);
 		Assert.assertThat(children, hasSize(1280));
 		Assert.assertThat(children, not(hasItem(taxon)));
 	}
@@ -59,13 +57,13 @@ public class TaxonRepoTest {
 	public void testFindByRank() {
 		List<Taxon> taxa = repo.findByRank("species");
 		Assert.assertThat(taxa, hasSize(1279));
-		Assert.assertThat(taxa, everyItem(hasProperty("rank", equalTo("species")))); // FIXME includes itself
+		Assert.assertThat(taxa, everyItem(hasProperty("rank", equalTo("species"))));
 	}
 
 	@Test
 	public void testGetByRank() {
 		List<Taxon> taxa = repo.getByRank("species");
-		Assert.assertThat(taxa, hasSize(1279)); // FIXME 1276
+		Assert.assertThat(taxa, hasSize(1279));
 		Assert.assertThat(taxa, everyItem(hasProperty("rank", equalTo("species"))));
 	}
 
@@ -87,6 +85,6 @@ public class TaxonRepoTest {
 		Iterable<Taxon> iterable = session.query(Taxon.class, "match (n:Taxon) where n.rank = {rank} return n", params);
 		List<Taxon> list = new ArrayList<>();
 		iterable.forEach(list::add);
-		Assert.assertEquals(1279L, list.size()); // FIXME 1276
+		Assert.assertEquals(1279L, list.size());
 	}
 }
