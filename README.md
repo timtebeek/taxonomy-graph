@@ -1,5 +1,6 @@
 # Taxonomy Graph
-Load the NCBI Taxonomy into Neo4J and expose with Spring Data.
+Load the NCBI Taxonomy into Neo4J and expose with Spring Data.  
+For: https://jira.spring.io/browse/DATAGRAPH-1008
 
 ## Run
 
