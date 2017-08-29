@@ -25,6 +25,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-neo4j</artifactId>
 		</dependency>
+		<!-- Expose to web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
 		<!-- Generate getters and setters -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
