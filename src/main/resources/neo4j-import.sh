@@ -7,13 +7,13 @@ cd $DATADIR;
 
 
 ## Download & extract
-#curl -o taxdump.tar.gz ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz;
+curl -o taxdump.tar.gz ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz;
 tar -xf taxdump.tar.gz;
 
 
 ## Transform input files
 # Prefix names with a unique numerical ID (not available inside docker image)
-nl -s '	|	' names.dmp > names_prefixed.dmp;
+nl -w 18 -s '	|	' names.dmp > names_prefixed.dmp;
 
 # Fix problematic lines in citations.dmp
 #36396	|	The Plant List - Polygala	|	0	|	0	|	Gymnadenia rhellicani	Nigritella rhellicani	|		|	4275 1384028 1384029 	|

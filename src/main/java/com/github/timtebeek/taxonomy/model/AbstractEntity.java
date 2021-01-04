@@ -1,15 +1,12 @@
 package com.github.timtebeek.taxonomy.model;
 
-import org.neo4j.ogm.annotation.GraphId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AccessLevel;
-import lombok.Setter;
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
 
 public abstract class AbstractEntity {
-	@GraphId(name = "id")
-	@Setter(value = AccessLevel.PACKAGE)
+	@Id @GeneratedValue
 	@JsonIgnore
 	Long graphid;
 

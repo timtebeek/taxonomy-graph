@@ -2,14 +2,12 @@ package com.github.timtebeek.taxonomy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableNeo4jRepositories
-@EnableTransactionManagement
 public class TaxonomyGraphApplication {
-	public static void main(final String[] args) {
+
+	public static void main(String[] args) {
 		SpringApplication.run(TaxonomyGraphApplication.class, args);
 	}
+
 }

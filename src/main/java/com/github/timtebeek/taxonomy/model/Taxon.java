@@ -1,19 +1,17 @@
 package com.github.timtebeek.taxonomy.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @NodeEntity
 @Data
@@ -52,16 +50,5 @@ public class Taxon extends AbstractEntity {
 	@Override
 	public Integer getId() {
 		return taxonid;
-	}
-
-	// Lombok generated methods also need annotations
-	@Relationship(type = "HAS_PARENT", direction = Relationship.OUTGOING)
-	public void setParent(final Taxon parent) {
-		this.parent = parent;
-	}
-
-	@Relationship(type = "HAS_PARENT", direction = Relationship.INCOMING)
-	public void setChildren(final Set<Taxon> children) {
-		this.children = children;
 	}
 }

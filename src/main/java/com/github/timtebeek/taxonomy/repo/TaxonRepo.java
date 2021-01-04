@@ -1,10 +1,10 @@
 package com.github.timtebeek.taxonomy.repo;
 
-import java.util.List;
-
 import com.github.timtebeek.taxonomy.model.Taxon;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+
+import java.util.List;
 
 public interface TaxonRepo extends Neo4jRepository<Taxon, Long> {
 	Taxon findByTaxonid(Integer taxonid);
